@@ -1,0 +1,45 @@
+SELECT  ME.name
+FROM MEAL ME 
+INNER JOIN INGREDIENT ING ON ME.meal_id = ING.meal_id
+WHERE ING.name = 'garlic'
+GROUP BY ME.name;
+
+SELECT COUNT(DISTINCT ME.meal_id) AS number_vege_meals
+FROM MEAL ME
+INNER JOIN INGREDIENT ING ON ME.meal_id = ING.meal_id
+WHERE ING.is_vegetarian = 1;
+
+
+SELECT ME.name
+FROM MEAL ME
+INNER JOIN INGREDIENT ING ON ME.meal_id = ING.meal_id
+WHERE ING.gluten_free = 1 AND ING.vegan = 1;
+
+
+SELECT AVG(ingredient) AS avg_meal_ingredient
+FROM ( 
+	SELECT ME.meal_id, COUNT(ING.ingredient_id) AS ingredient_count
+	FROM MEAL ME 
+	INNER JOIN INGREDIENT ING ON ME.meal_id = ING.meal_id
+	GROUP BY ME.meal_id) 
+AS meal_ingredient;
+
+
+SELECT ME.name
+FROM MEAL ME
+INNER JOIN(
+	SELECT ING.meal_id, COUNT(*) AS ingredient_count
+	FROM INGREDIENT ING
+	GROUP BY ING.meal_id
+	HAVING COUNT(*)>3)
+AS ingredient_count ON ME.meal_id = ingredient_counts.meal_id;
+
+
+SELECT *
+FROM CUSTOMER CUS 
+INNER JOIN ORDER ORD ON CUS.CUSTOMER_ID = ORD.CUSTOMER_ID;
+
+
+SELECT *
+FROM PRODUCT PRO
+INNER JOIN INVENTORY INV ON PRO.PRODUCT_ID = INV.PRODUCT_ID;
